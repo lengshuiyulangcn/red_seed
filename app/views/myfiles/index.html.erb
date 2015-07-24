@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Myfiles</h1>
+  <% @myfiles.each do |myfile| %>
+    <h3><%= myfile.file_name %></h3>
+    <%=link_to "play",play_video_path(myfile.id) if myfile.can_play?%>
+  <% end %>
+<br>
+
+<%= link_to 'New Myfile', new_myfile_path %>
