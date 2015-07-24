@@ -19,6 +19,16 @@ class TorrentsController < ApplicationController
   end
   def new
   end
+
+  def fetch
+    torrent=Torrent.new params[:hash]
+    path=torrent.file_path
+    if torrent.complete? && TorrentFile.where(torrent_hash: params[:hash])==[]
+      TorrentFile.create(torrent_hash: params[:hash], file_path: path, fetched: true)
+      Myfile.fetch_files(path,"*")
+    end
+    redirect :back
+  end
   def create
     url=params[:torrent][:url]
     if url.blank?

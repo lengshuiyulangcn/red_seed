@@ -60,6 +60,10 @@ class Torrent
     return true if @@client.call('d.is_active',hash)==1
     return false
   end
+
+  def file_path
+    @@client.call("d.get_base_path",hash)
+  end
   def call_api(api)
     @@client.call(api,hash)
   end

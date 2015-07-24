@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'torrent/stop/:hash'=>'torrents#stop', as: :stop_torrent
   get 'torrent/start/:hash'=>'torrents#start', as: :start_torrent
   get 'torrent/delete/:hash'=>'torrents#delete', as: :delete_torrent
+  get 'torrent/fetch/:hash'=>'torrents#fetch', as: :fetch_torrent
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

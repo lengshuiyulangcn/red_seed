@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="torrent">
-        <%@torrents.each do |torrent|%>
+     <%@torrents.each do |torrent|%>
           <p class="text-info">
           <%=torrent.name%>[<%=(torrent.total_size.to_f/(1024*1024)).round(3).to_s+"Mb"%>]
           </p>
@@ -14,14 +14,17 @@
         </div>
       </div>
       <%if torrent.is_active? %>
-          <%=link_to "stop", stop_torrent_path(torrent.hash), class: "btn btn-warning"%>
-        <%else%>
-          <%=link_to "start",start_torrent_path(torrent.hash),class: "btn btn-success"%>
-        <%end%>
-        <%=link_to "delete", delete_torrent_path(torrent.hash), class:"btn btn-danger"%>
+        <%=link_to "stop", stop_torrent_path(torrent.hash), class: "btn btn-warning"%>
+      <%else%>
+        <%=link_to "start",start_torrent_path(torrent.hash),class: "btn btn-success"%>
+      <%end%>
+      <%=link_to "delete", delete_torrent_path(torrent.hash), class:"btn btn-danger"%>
+      <%if torrent.complete?%>
+        <%=link_to "delete", fetch_torrent_path(torrent.hash), class:"btn btn-info"%>
+      <%end%>
         <br>
         <hr>
-      <%end%>
+    <%end%>
           <script>
           var dispatcher = new WebSocketRails('localhost:3000/websocket');
           dispatcher.bind("system",  receive_update)

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150709112928) do
+ActiveRecord::Schema.define(version: 20150724145516) do
 
   create_table "myfiles", force: :cascade do |t|
     t.string   "file_name"
@@ -19,6 +19,14 @@ ActiveRecord::Schema.define(version: 20150709112928) do
     t.string   "file_md5"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "torrent_files", force: :cascade do |t|
+    t.string   "torrent_hash"
+    t.string   "file_path"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.boolean  "fetched"
   end
 
 end
