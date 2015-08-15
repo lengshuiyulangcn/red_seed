@@ -1,6 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-6">
+    <div class="col-sm-8">
+      <h3>下载列表</h3>
       <div class="torrent">
      <%@torrents.each do |torrent|%>
           <p class="text-info">
@@ -20,13 +21,13 @@
       <%end%>
       <%=link_to "delete", delete_torrent_path(torrent.hash), class:"btn btn-danger"%>
       <%if torrent.complete?%>
-        <%=link_to "delete", fetch_torrent_path(torrent.hash), class:"btn btn-info"%>
+        <%=link_to "fetch", fetch_torrent_path(torrent.hash), class:"btn btn-info"%>
       <%end%>
         <br>
         <hr>
     <%end%>
           <script>
-          var dispatcher = new WebSocketRails('localhost:3000/websocket');
+          var dispatcher = new WebSocketRails('bocchi.tokyo/websocket');
           dispatcher.bind("system",  receive_update)
           function trigger_update(){
           dispatcher.trigger("new_message","")
@@ -68,7 +69,16 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
+      <h3>播放列表</h3>
+      <ul>
+        <%Video.all.each do |video|%>
+          <li>
+          <%=link_to video.base_name, play_video_path(video.id)%>
+          <a data-method='delete' href='/videos/<%=video.id%>'>Delete</a>
+          </li>
+        <%end%>
+      </ul>
     </div>
   </div>
 </div>

@@ -1,0 +1,30 @@
+<head>
+<link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+<script src="//vjs.zencdn.net/4.12/video.js"></script>
+</head>
+<body>
+  <div class="container">
+    <center>
+      <h3>播放影片: <%=@name%></h3>
+      <script>
+      $(document).ready(function () {
+        var path = <%=@path%>
+        var myPlayer = videojs('example_video_1');
+      myPlayer.src(path);
+      myPlayer.load()
+      myPlayer.play()
+      })
+      </script>
+      <!-- モーダルの設定 -->
+        <div id="play">
+        <video id="example_video_1" class="video-js vjs-default-skin" controls preload="none" width="960" height="540"
+            data-setup="{}">
+          <source src="<%=@path%>" type='video/mp4' />
+          <track kind="captions" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+          <track kind="subtitles" src="demo.captions.vtt" srclang="en" label="English"></track><!-- Tracks need an ending tag thanks to IE9 -->
+          <p class="vjs-no-js">To view this video please enable JavaScript, and consider upgrading to a web browser that <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a></p>
+        </video>
+      </div>
+    </div>
+    </center>
+</body>

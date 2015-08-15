@@ -1,3 +1,4 @@
+require 'shellwords'
 class TorrentsController < ApplicationController
   def index
     @torrents=Torrent.all
@@ -23,11 +24,12 @@ class TorrentsController < ApplicationController
   def fetch
     torrent=Torrent.new params[:hash]
     path=torrent.file_path
-    if torrent.complete? && TorrentFile.where(torrent_hash: params[:hash])==[]
-      TorrentFile.create(torrent_hash: params[:hash], file_path: path, fetched: true)
-      Myfile.fetch_files(path,"*")
+    if torrent.complete? && Video.where(seed_hash: params[:hash]).empty?
+      Dir[path.shellescape+"/*"].each do |file|
+        Video.create(seed_hash: params[:hash], path: file, base_name: torrent.name) if file.split(".")[-1]=="mp4"
+      end
     end
-    redirect :back
+    redirect_to :back
   end
   def create
     url=params[:torrent][:url]

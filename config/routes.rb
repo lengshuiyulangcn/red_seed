@@ -1,17 +1,17 @@
 Rails.application.routes.draw do
-  resources :myfiles
-  get 'play_video/:id'=>'myfiles#play', as: :play_video
-  get 'play_url/:hash'=>'myfiles#play_url', as: :play_url
   resources :torrents
   get 'torrent/stop/:hash'=>'torrents#stop', as: :stop_torrent
   get 'torrent/start/:hash'=>'torrents#start', as: :start_torrent
   get 'torrent/delete/:hash'=>'torrents#delete', as: :delete_torrent
   get 'torrent/fetch/:hash'=>'torrents#fetch', as: :fetch_torrent
+  get 'play_url/:hash'=>'videos#play_url', as: :play_url
+  get 'play_video/:id'=>'videos#play_video', as: :play_video
+  resources :videos, only: :destroy
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+   root 'torrents#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

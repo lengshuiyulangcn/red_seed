@@ -1,7 +1,7 @@
 require 'xmlrpc/client'
 class Torrent
   attr_reader :hash
-  @@client = XMLRPC::Client.new2("http://49.212.212.212/RPC2")  
+  @@client = XMLRPC::Client.new2("http://www.bocchi.tokyo/scgi")  
   def initialize(hash)
     @hash=hash
   end
