@@ -3,30 +3,30 @@
     <div class="col-sm-8">
       <h3>下载列表</h3>
       <div class="torrent">
-     <%@torrents.each do |torrent|%>
+        <%@torrents.each do |torrent|%>
           <p class="text-info">
-          <%=torrent.name%>[<%=(torrent.total_size.to_f/(1024*1024)).round(3).to_s+"Mb"%>]
+            <%=torrent.name%>[<%=(torrent.total_size.to_f/(1024*1024)).round(3).to_s+"Mb"%>]
           </p>
           <div id="<%=torrent.hash%>">
-          upload speed: <%=format_speed torrent.upload_speed%> download speed: <%=format_speed torrent.download_speed%>
-          <%finished=torrent.finished_percentage%>
-          <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow=<%=finished*100%>  aria-valuemin="0" aria-valuemax="100" style="width: <%=(finished*100).to_s+'%'%>"><%=(finished*100).to_s+"%"%></div>
-        </div>
-      </div>
-      <%if torrent.is_active? %>
-        <%=link_to "stop", stop_torrent_path(torrent.hash), class: "btn btn-warning"%>
-      <%else%>
-        <%=link_to "start",start_torrent_path(torrent.hash),class: "btn btn-success"%>
-      <%end%>
-      <%=link_to "delete", delete_torrent_path(torrent.hash), class:"btn btn-danger"%>
-      <%if torrent.complete?%>
-        <%=link_to "fetch", fetch_torrent_path(torrent.hash), class:"btn btn-info"%>
-      <%end%>
+            upload speed: <%=format_speed torrent.upload_speed%> download speed: <%=format_speed torrent.download_speed%>
+            <%finished=torrent.finished_percentage%>
+            <div class="progress">
+              <div class="progress-bar" role="progressbar" aria-valuenow=<%=finished*100%>  aria-valuemin="0" aria-valuemax="100" style="width: <%=(finished*100).to_s+'%'%>"><%=(finished*100).to_s+"%"%></div>
+            </div>
+          </div>
+          <%if torrent.is_active? %>
+            <%=link_to "stop", stop_torrent_path(torrent.hash), class: "btn btn-warning"%>
+          <%else%>
+            <%=link_to "start",start_torrent_path(torrent.hash),class: "btn btn-success"%>
+          <%end%>
+          <%=link_to "delete", delete_torrent_path(torrent.hash), class:"btn btn-danger"%>
+          <%if torrent.complete?%>
+            <%=link_to "fetch", fetch_torrent_path(torrent.hash), class:"btn btn-info"%>
+          <%end%>
         <br>
         <hr>
-    <%end%>
-          <script>
+      <%end%>
+      <script>
           var dispatcher = new WebSocketRails('bocchi.tokyo/websocket');
           dispatcher.bind("system",  receive_update)
           function trigger_update(){
@@ -74,8 +74,12 @@
       <ul>
         <%Video.all.each do |video|%>
           <li>
-          <%=link_to video.base_name, play_video_path(video.id)%>
-          <a data-method='delete' href='/videos/<%=video.id%>'>Delete</a>
+            <% if video.status == "converted" %>
+              <%=link_to video.base_name, play_video_path(video.id)%>
+              <a data-method='delete' href='/videos/<%=video.id%>'>Delete</a>
+            <% else %>
+              <%=video.base_name(转码中)%>
+            <% end %>
           </li>
         <%end%>
       </ul>

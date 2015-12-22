@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+  # deprecated 
   def play_url
     videos=Video.where(seed_hash: params[:hash])
     redirect_to :back if videos.empty?

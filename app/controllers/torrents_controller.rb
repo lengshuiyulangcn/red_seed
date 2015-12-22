@@ -26,7 +26,12 @@ class TorrentsController < ApplicationController
     path=torrent.file_path
     if torrent.complete? && Video.where(seed_hash: params[:hash]).empty?
       Dir[path.shellescape+"/*"].each do |file|
-        Video.create(seed_hash: params[:hash], path: file, base_name: torrent.name) if file.split(".")[-1]=="mp4"
+        if file.split(".")[-1]=="mp4"
+          Video.create(seed_hash: params[:hash], path: file, base_name: torrent.name) 
+        elsif file.split(".")[-1]=="wmv"
+          video = Video.create(seed_hash: params[:hash], path: file, base_name: torrent.name, status: "raw" )
+          ConverterJob.perform_later(video)
+        end
       end
     end
     redirect_to :back
