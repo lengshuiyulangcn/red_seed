@@ -9,7 +9,7 @@ class ConverterJob < ActiveJob::Base
     else
       movie.transcode(mp4_path)
       File.delete(video.path) if File.exist?(video.path)
-      video.update(path: mp4_file, status: "converted") 
+      video.update(path: mp4_path, status: "converted") 
     end
   end
 end
